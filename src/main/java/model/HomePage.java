@@ -1,14 +1,9 @@
 package model;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
-
 
 public class HomePage {
     //адрес домашней страницы
@@ -24,7 +19,7 @@ public class HomePage {
     //кнопка Заказать нижняя
     public static final By LOC_ORDER_BUTTON_2_HOMEPAGE = By.xpath("//*[@id='root']/div/div[1]/div[4]/div[2]/div[5]/button");
     //кнопка Далее при оформлении заказа
-    public static final By LOC_NEXT_BUTTON_FORM_ORDER = By.xpath("//*[@id='root']/div/div[2]/div[3]/button");
+    public static final By LOC_NEXT_BUTTON_FORM_ORDER = By.cssSelector(".Button_Middle__1CSJM");
 
     private final WebDriver driver;
 
@@ -47,30 +42,31 @@ public class HomePage {
     public void clickGoButton() {
         driver.findElement(LOC_GO_BUTTON_HOMEPAGE).click();
     }
-
+    //ждать 5 сек пока элемент станет кликабельным
     public void waitWebElementToBeClickable(WebElement element) {
         new WebDriverWait(driver, Duration.ofSeconds(5))
                 .until(ExpectedConditions.elementToBeClickable(element));
     }
-
+    //кликнуть верхнюю кнопку Заказать
     public void clickOrderButton1() {
         WebElement element = driver.findElement(LOC_ORDER_BUTTON_1_HOMEPAGE);
         new WebDriverWait(driver, Duration.ofSeconds(5))
                 .until(ExpectedConditions.elementToBeClickable(element));
         element.click();
     }
-
-    private  void clickOrderingButton_2() {
+    //кликнуть нижнюю кнопку Заказать
+    public void clickOrderButton2() {
         WebElement element = driver.findElement(LOC_ORDER_BUTTON_2_HOMEPAGE);
-        new WebDriverWait(driver, Duration.ofSeconds(5))
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
+        new WebDriverWait(driver, Duration.ofSeconds(20))
                 .until(ExpectedConditions.elementToBeClickable(element));
         element.click();
     }
-
+    //кликнуть кнопку Далее
     public void clickOrderButtonNext() {
         WebElement element = driver.findElement(LOC_NEXT_BUTTON_FORM_ORDER);
-        ((JavascriptExecutor)driver).executeScript("scroll(0,250)");
-        new WebDriverWait(driver, Duration.ofSeconds(30))
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
+        new WebDriverWait(driver, Duration.ofSeconds(20))
                 .until(ExpectedConditions.elementToBeClickable(element));
         element.click();
     }
